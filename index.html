@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="container">
+
+</div>
+<script src="smartpag.js"></script>
+<script>
+    let items = [
+        {
+            name: "Guga",
+            age: 21
+        },
+        {
+            name: "Gio",
+            age: 20
+        },
+        {
+            name: "Levan",
+            age: 25
+        }
+    ];
+    let config = {
+        headers: ["სახელი", "გვარი"],
+        quantity: 5
+    };
+    let pagination = new SmartPag(items, config);
+</script>
+</body>
+</html>
