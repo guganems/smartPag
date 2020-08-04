@@ -4,3 +4,30 @@
 .smart-pag-hide {
     display: none;
 }
+.smart-pag-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.smart-pag-table-cell {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 5px;
+    max-width: 200px;
+
+}
+.smart-pag-table-row:nth-child(even) {
+    background: #dddddd;
+}
+.smart-pag-search-box {
+    width: 20%;
+    border: 1px solid #000;
+    border-radius: 6px;
+    padding: 5px;
+}
+.smart-pag-table-block {
+    padding-top: 15px;
+}
+.smart-pag-pagination-block{
+    display: flex;
+    padding-top: 20px;
+}

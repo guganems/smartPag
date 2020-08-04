@@ -2,7 +2,7 @@ class SmartPag {
     constructor(items, config) {
         this.config = config;
         this.items = items;
-        this.pagesBtns = Math.ceil(this.items.length / this.config.quantity);
+        this.pagesBtns = Math.ceil(this.items.length / this.config.pageSize);
         this.starter = 0;
         this.init();
     }
@@ -22,7 +22,7 @@ class SmartPag {
         }
 
         this.container.innerHTML += `
-            <div style="display: flex; padding-top: 5px">
+            <div class="smart-pag-pagination-block">
                 <button class="pre">pre</button>
                     <div class="btns">
                         ${newBtns}
@@ -33,12 +33,13 @@ class SmartPag {
 
         this.chnageItems();
         this.addText();
+        this.searchFilter();
     }
 
     drawTable() {
         // TODO: draws it
         let newDivs = ``;
-        for (let i = this.starter; i < this.starter + this.config.quantity; i++) {
+        for (let i = this.starter; i < this.starter + this.config.pageSize; i++) {
             if (i < this.items.length) {
                 let cell = "";
                 for (let key = 0; key < this.config.keys.length; key++) {
@@ -51,13 +52,13 @@ class SmartPag {
                         isEditable = "smart-pag-editable";
                     }
                     cell += `
-                        <div class="smart-pag-table-cell ${hide} ${isEditable}" data-key="${key}" data-item="${i}" contenteditable="${this.config.keys[key].edit}">${this.items[i][this.config.keys[key].name] ? this.items[i][this.config.keys[key].name] : ""}</div>
+                        <td class="smart-pag-table-cell ${hide} ${isEditable}" data-key="${key}" data-item="${i}" contenteditable="${this.config.keys[key].edit}">${this.items[i][this.config.keys[key].name] ? this.items[i][this.config.keys[key].name] : ""}</td>
                     `
                 }
                 newDivs += `
-                <div class="smart-pag-table-row" style="display: flex; margin: 5px 0">
+                <tr class="smart-pag-table-row">
                     ${cell}
-                </div>
+                </tr>
             `;
             }
         }
@@ -71,17 +72,27 @@ class SmartPag {
 
             }
             header += `
-                <h3 style="margin: 5px" class="${isHidden}">${e.header}</h3>
+                <th class="smart-pag-table-cell ${isHidden}">${e.header}</th>
             `;
         });
 
+
         this.container.innerHTML = `
-            <div style="">
-                <div style="display: flex">
-                    ${header}
-                </div>
-                ${newDivs}
-            </div>
+             <div class="smart-pag-search-box-block">
+                <input type="text" name="smartPagSearch" id="smartPagSearch" class="smart-pag-search-box">
+             </div>
+             <div class="smart-pag-table-block">
+                <table class="smart-pag-table" id="smartPagTable">
+                    <thead class="smar-pag-thead">
+                        <tr class="smart-pag-table-row">
+                            ${header}
+                        </tr>
+                    </thead>
+                    <tbody class="smart-pag-tbody" id="smartPagTbody">
+                        ${newDivs}
+                    </tbody>
+                </table>
+             </div>
         `;
     }
 
@@ -94,18 +105,18 @@ class SmartPag {
             e.addEventListener('click', function () {
                 if (e.classList.contains('pre')) {
                     if (me.starter > 0) {
-                        me.starter -= me.config.quantity;
+                        me.starter -= me.config.pageSize;
                         me.init();
                     }
                 }
                 else if (e.classList.contains('next')) {
-                    if (me.starter < me.items.length - me.config.quantity) {
-                        me.starter += me.config.quantity;
+                    if (me.starter < me.items.length - me.config.pageSize) {
+                        me.starter += me.config.pageSize;
                         me.init();
                     }
                 }
                 else if (e.parentElement.classList.contains('btns')) {
-                    me.starter = Number(e.textContent) * me.config.quantity - me.config.quantity;
+                    me.starter = Number(e.textContent) * me.config.pageSize - me.config.pageSize;
                     me.init();
                 }
             });
@@ -117,10 +128,18 @@ class SmartPag {
             document.querySelectorAll('.smart-pag-editable').forEach(e => {
             let me = this;
             e.addEventListener('keyup', () => {
-                this.items[e.dataset.item][this.config.keys[2]] = e.innerText;
+                let key = e.dataset.key;
+                this.items[e.dataset.item][this.config.keys[key].name] = e.innerText;
             });
             this.items = me.items;
             // console.log(this.items);
+        });
+    }
+    searchFilter() {
+        this.searchBox = document.getElementById("smartPagSearch");
+        let tbody =  document.getElementById("smartPagTbody");
+        this.searchBox.addEventListener("keyup", function () {
+            console.log(tbody)
         });
     }
 

@@ -40,11 +40,11 @@
     ];
     let config = {
         keys: [
-            {header: "სახელი" ,name: "name", edit: false, hide: true},
+            {header: "სახელი" ,name: "name", edit: false, hide: false},
             {header: "ასაკი", name: "age", edit: false, hide: false},
             {header: "კომენტარი", name: "comment", edit: true, hide: false}
         ],
-        quantity: 5
+        pageSize: 2
     };
     let pagination = new SmartPag(items, config);
 </script>
