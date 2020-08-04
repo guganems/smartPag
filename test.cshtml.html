@@ -1,0 +1,143 @@
+<html lang="en">
+<head>
+    <script type="text/javascript" src="http://localhost:8000/Content/js/smartpag.js"></script>
+
+    <style>
+        .smart-pag-active {
+            display: block;
+        }
+        .smart-pag-hide {
+            display: none;
+        }
+        .smart-pag-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .smart-pag-table-cell {
+            border: 1px solid #888;
+            text-align: left;
+            padding: 5px;
+            max-width: 200px;
+
+        }
+        .smart-pag-table-row:nth-child(even) {
+            background: #dddddd;
+        }
+        .smart-pag-search-box {
+            width: 20%;
+            border: 1px solid #000;
+            border-radius: 6px;
+            padding: 5px;
+        }
+        #smartPagTableBlock {
+            padding-top: 25px;
+        }
+        .smart-pag-pagination-block{
+            display: flex;
+            padding-top: 20px;
+        }
+        .smart-pag-paginating-btn {
+            height: 24px;
+            width: 24px;
+            background: #fff;
+            color: #3498DB;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 0 5px;
+        }
+
+        .smart-pag-paginating-btn:hover {
+            background: #3498DB;
+            color: #fff;
+
+        }
+        .smart-pag-next, .smart-pag-pre {
+            background: none;
+            color: #3498DB;
+            border: none;
+            cursor: pointer;
+        }
+        .smart-pag-next:hover, .smart-pag-pre:hover {
+            background: #3498DB;
+            color: #fff;
+            border-radius: 50%;
+            padding: 5px 7px;
+            transition: 0.2s;
+        }
+        .smart-pag-active {
+            background-color: #3498DB !important;
+            color: #fff !important;
+        }
+
+    </style>
+</head>
+<body>
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Text;
+@using EleWise.ELMA.API;
+@using EleWise.ELMA.Model.Common;
+@using EleWise.ELMA.Model.Entities;
+@using EleWise.ELMA.Model.Managers;
+@using EleWise.ELMA.Model.Types.Settings;
+@using EleWise.ELMA.Model.Services;
+@Html.EditableProperty("Entity.jsonSpecies")
+@Html.EditableProperty("Entity.gegmiuriJsonForInventar")
+<div id="container">
+
+</div>
+<script src="smartpag.js"></script>
+<script>
+    let data = document.getElementById('Entity_jsonSpecies').value;
+    data = JSON.parse(data)
+    data = data.filter(el => {
+        if (el.IdProdTG === "20") return true;
+    });
+    document.getElementById('Entity_jsonSpecies_Container').style.display = "none";
+    document.getElementById('Entity_gegmiuriJsonForInventar_Container').style.display = "none";
+
+
+
+</script>
+<script>
+    let items = data;
+    let config = {
+        keys: [
+            {header: "დასახელება" ,name: "ProdT", edit: false, hide: false, searchable: true},
+            {header: "IdProdT", name: "IdProdT", edit: false, hide: true, searchable: false},
+            {header: "ერთეული", name: "ProdTUnit", edit: false, hide: false, searchable: false},
+            {header: "რაოდენობა", name: "quantity", edit: true, hide: false, searchable: false},
+            {header: "IdProdTG", name: "IdProdTG", edit: false, hide: true, searchable: false},
+            {header: "კომენტარი", name: "comment", edit: true, hide: false, searchable: false},
+        ],
+        pageSize: 10,
+        parentDiv: "container"
+    };
+
+
+    function act (me) {
+        // console.log(me);
+        me.classList.toggle("smart-pag-active");
+    }
+
+    let pagination = new SmartPag(items, config, logThis);
+    function logThis (es) {
+        let items = [...es.slice()];
+        let newItems = [];
+        for (let item of items) {
+            if (item.quantity != "") {
+                if (parseInt(item.quantity) > 0) {
+                    newItems.push(item);
+                }
+            }
+        }
+        document.getElementById("Entity_gegmiuriJsonForInventar").value = JSON.stringify(newItems);
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="http://localhost:8000/Content/js/paginate.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .top-block {
+            display: flex;
+            justify-content: center;
+        }
+
+        .user-info {
+            text-align: center;
+            padding-top: 15px;
+        }
+
+        .search-block {
+            float: left;
+        }
+
+        .search-block input {
+            padding: 5px;
+            border-radius: 6px;
+            border: 1px solid #000;
+            width: 276px;
+        }
+
+        .table-block {
+            margin-top: 50px;
+            border-collapse: collapse;
+
+        }
+
+        .table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .thead {
+            background-color: rgba(110, 93, 93, 0.4);
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .td,
+        .th {
+            border: 1px solid #888;
+            text-align: left;
+            padding: 8px;
+            width: 25%;
+        }
+
+        .tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        #comment {
+            height: 100%;
+            width: 100%;
+            border: none;
+            padding-top: 8px;
+            padding-left: 8px;
+            resize: none;
+            background-color: rgba(184, 181, 181, -0.6);
+        }
+
+        .paginate {
+            padding: 5px 0px;
+            margin-top: 20px;
+        }
+
+        .paginate input[type='button']:hover {
+            cursor: pointer;
+        }
+
+        .paginate input[type='button'] {
+            margin: 0px 2px;
+            border: none;
+            color: #03A9F4;
+            background-color: transparent;
+            border-radius: 50%;
+            min-width: 1.5rem;
+            min-height: 1.5rem;
+            outline: none;
+        }
+
+        .paginate input[type='button'].active {
+            background-color: #17a2b8;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .paginate input[type='button']:disabled {
+            color: grey !important;
+            cursor: not-allowed;
+        }
+
+        .paginate input[type='number']#paginate_page_to_go {
+            max-width: 3rem;
+            text-align: center;
+            border-radius: 4px;
+            border: 1px solid rgba(128, 128, 128, 0.65);
+            padding: 3px;
+        }
+
+        textarea {
+            resize: none;
+            height: 100%;
+            width: 100% !important;
+            border: 0;
+            padding: 5px;
+            background: none;
+        }
+
+        .td:nth-child(2) {
+            padding: 0;
+            height: 0;
+        }
+
+        .td-inner-input {
+            padding: 5px;
+            height: 100%;
+        }
+        .td:last-child {
+            padding: 0;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Text;
+@using EleWise.ELMA.API;
+@using EleWise.ELMA.Model.Common;
+@using EleWise.ELMA.Model.Entities;
+@using EleWise.ELMA.Model.Managers;
+@using EleWise.ELMA.Model.Types.Settings;
+@using EleWise.ELMA.Model.Services;
+@Html.EditableProperty("Entity.jsonSpecies")
+
+<div class="form-container">
+    <div class="top-block">
+        <div class="top-block__item">
+            <h4>შეკითხვების შემთხვევაში დაუკავშირდით:</h4>
+            <p class="user-info">ნიკოლოზ ლაშხი: 595002620</p>
+            <p class="user-info">გურამ ბასიაშვილი: 599847339</p>
+        </div>
+    </div>
+    <div class="search-block">
+        <label for="search">ძებნა: </label>
+        <input type="text" name="search" id="search">
+    </div>
+    <div class="table-block">
+        <table class="table" id="myTable">
+            <thead class="thead">
+            <tr class="tr">
+                <th class="th">დასახელება</th>
+                <th class="th">ერთეული</th>
+                <th class="th">რაოდ</th>
+                <th class="th">კომენტარი</th>
+            </tr>
+            </thead>
+            <tbody class="tbody" id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let data = document.getElementById('Entity_jsonSpecies').value;
+    data = JSON.parse(data)
+    console.log(data);
+
+    document.getElementById('Entity_jsonSpecies_Container').style.display = "none";
+    addrow(data)
+    //functions
+
+
+    // function fillTable(data) {
+    //     let table = document.getElementById('tbody');
+    //     let index = 0;
+    //     for (let item of data) {
+    //         table.innerHTML += addRow(item, index);
+    //         index++;
+    //     }
+    // }
+    function addrow(item) {
+        let table = document.getElementById("tbody");
+        for (let item of data) {
+            if (item.IdProdTG === "20") {
+                table.innerHTML += `
+                        <tr class="tr">
+                            <td class="td">${item.ProdT}</td>
+                            <td class="td">
+                                <input type="number" min=1 oninput="validity.valid||(value='');" onchange="generateJson()"  class="td-inner-input" style="width: 100%;  background: none; border: none; text-align: left">
+                            </td>
+                            <td class="td"></td>
+                            <td class="td">
+                                <textarea name="comment" onchange="generateJson()"></textarea>
+                            </td>
+                        </tr>
+                    `
+            }
+
+        }
+    }
+    function generateJson() {
+        let table = document.getElementById('tbody');
+
+        let obj;
+        let arr = [];
+        for (let i = 0; i < table.rows.length; i++) {
+            console.log(table.rows[i].cells[0]);
+            console.log(table.rows[i].cells[1].childNodes[1].value);
+            // console.log(table.rows[i].cells[1].childNodes + '1');
+            obj = {
+                name: table.rows[i].cells[0].innerHTML,
+                quantity: table.rows[i].cells[1].childNodes[1].value,
+                erteuli: table.rows[i].cells[2].innerHTML,
+                sashFasi: table.rows[i].cells[3].innerHTML,
+                comment: table.rows[i].cells[4].childNodes[1].value,
+            };
+            arr.push(obj);
+        }
+        document.getElementById("Entity_send_json").value = JSON.stringify(arr);
+    }
+    function restrictMoreThan(me, quantity) {
+        // console.log(me);
+        let isnum = (/^\d+\.\d+$/.test(me.innerHTML)) || (/^\d+$/.test(me.innerHTML)) || (/^\d+\.$/.test(me.innerHTML));
+        if (isnum) {
+            me.style.border = "";
+
+            if (parseFloat(me.innerHTML) > parseFloat(quantity)) {
+                me.style.border = "2px solid red";
+                me.innerHTML = "";
+            } else {
+                me.style.border = "1px solid black";
+            }
+        }
+        else {
+            me.style.border = "2px solid red";
+            me.innerHTML = "";
+        }
+    }
+
+
+    let options = {
+        numberPerPage: 10,
+        goBar: true,
+        pageCounter: true,
+    };
+
+    let filterOptions = {
+        el: '#search'
+    };
+
+    paginate.init('.tbody', options, filterOptions);
+
+</script>
+
+</body>
+
+</html>
