@@ -24,10 +24,44 @@
     border-radius: 6px;
     padding: 5px;
 }
-.smart-pag-table-block {
-    padding-top: 15px;
+#smartPagTableBlock {
+    padding-top: 25px;
 }
 .smart-pag-pagination-block{
     display: flex;
     padding-top: 20px;
 }
+.smart-pag-paginating-btn {
+    height: 24px;
+    width: 24px;
+    background: #fff;
+    color: #3498DB;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 0 5px;
+}
+
+.smart-pag-paginating-btn:hover {
+    background: #3498DB;
+    color: #fff;
+
+}
+.smart-pag-next, .smart-pag-pre {
+    background: none;
+    color: #3498DB;
+    border: none;
+    cursor: pointer;
+}
+.smart-pag-next:hover, .smart-pag-pre:hover {
+    background: #3498DB;
+    color: #fff;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+.smart-pag-active {
+    background-color: #3498DB !important;
+    color: #fff !important;
+}
+

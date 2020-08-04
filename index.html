@@ -15,38 +15,68 @@
         {
             name: "Guga",
             age: 21,
-            comment: "ddd"
+            comment: "ddd",
+            idPrdo: 123
         },
         {
             name: "Gio",
-            age: 20
+            age: 20,
+            comment: "ddd",
+            idPrdo: 123
         },
         {
             name: "Levan",
-            age: 25
+            age: 25,
+            comment: "ddd",
+            idPrdo: 123
         },
         {
             name: "nika",
             age: 26,
+        comment: "ddd",
+        idPrdo: 123
         },
         {
             name: "tato",
             age: 27,
+            comment: "ddd",
+            idPrdo: 123
         },
         {
             name: "dato",
             age: 65,
+            comment: "ddd",
+            idPrdo: 123
         }
     ];
     let config = {
         keys: [
-            {header: "სახელი" ,name: "name", edit: false, hide: false},
-            {header: "ასაკი", name: "age", edit: false, hide: false},
-            {header: "კომენტარი", name: "comment", edit: true, hide: false}
+            {header: "სახელი" ,name: "name", edit: false, hide: false, searchable: true},
+            {header: "ასაკი", name: "age", edit: false, hide: false, searchable: true},
+            {header: "კომენტარი", name: "comment", edit: true, hide: false, searchable: true},
+            {header: "კომენტარი", name: "idPrdo", edit: false, hide: false, searchable: true}
         ],
-        pageSize: 2
+        pageSize: 3,
+        parentDiv: "container"
     };
-    let pagination = new SmartPag(items, config);
+
+
+    function act (me) {
+        console.log(me);
+        me.classList.toggle("smart-pag-active");
+    }
+
+    let pagination = new SmartPag(items, config, logThis);
+    function logThis (es) {
+        let items = [...es.slice()];
+        let newItems = [];
+        for (let item of items) {
+            if (parseInt(item.age) > 21) {
+                newItems.push(item);
+            }
+        }
+        console.log(newItems);
+    }
 </script>
 </body>
 </html>
