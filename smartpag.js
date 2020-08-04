@@ -42,9 +42,9 @@ class SmartPag {
             if (i < this.items.length) {
                 newDivs += `
                 <div style="display: flex; margin: 5px 0">
-                    <p style="margin: 0 5px">${this.items[i].name}</p>
-                    <p style="margin: 0 5px">${this.items[i].age}</p>
-                    <div class="table-cell" data-item="${i}" contenteditable="true" style="width: 100px; height: 20px; background: red">${this.items[i].ramdenadYlea ? this.items[i].ramdenadYlea : ""}</div>
+                    <p style="margin: 0 5px">${this.items[i][this.config.keys[0]]}</p>
+                    <p style="margin: 0 5px">${this.items[i][this.config.keys[1]]}</p>
+                    <div class="table-cell" data-item="${i}" contenteditable="true" style="width: 100px; height: 20px; background: red">${this.items[i][this.config.keys[2]] ? this.items[i][this.config.keys[2]] : ""}</div>
                 </div>
             `;
             }
@@ -93,7 +93,7 @@ class SmartPag {
             document.querySelectorAll('.table-cell').forEach(e => {
             let me = this;
             e.addEventListener('keyup', () => {
-                this.items[e.dataset.item].ramdenadYlea = e.innerText;
+                this.items[e.dataset.item].this.config[2] = e.innerText;
             });
             this.items = me.items;
             // console.log(this.items);
