@@ -40,11 +40,23 @@ class SmartPag {
         let newDivs = ``;
         for (let i = this.starter; i < this.starter + this.config.quantity; i++) {
             if (i < this.items.length) {
+                let cell = "";
+                for (let key = 0; key < this.config.keys.length; key++) {
+                    let hide = "";
+                    let isEditable = "";
+                    if (this.config.keys[key].hide) {
+                        hide = "smart-pag-hide";
+                    }
+                    if(this.config.keys[key].edit) {
+                        isEditable = "smart-pag-editable";
+                    }
+                    cell += `
+                        <div class="smart-pag-table-cell ${hide} ${isEditable}" data-key="${key}" data-item="${i}" contenteditable="${this.config.keys[key].edit}">${this.items[i][this.config.keys[key].name] ? this.items[i][this.config.keys[key].name] : ""}</div>
+                    `
+                }
                 newDivs += `
-                <div style="display: flex; margin: 5px 0">
-                    <p style="margin: 0 5px">${this.items[i][this.config.keys[0]]}</p>
-                    <p style="margin: 0 5px">${this.items[i][this.config.keys[1]]}</p>
-                    <div class="table-cell" data-item="${i}" contenteditable="true" style="width: 100px; height: 20px; background: red">${this.items[i][this.config.keys[2]] ? this.items[i][this.config.keys[2]] : ""}</div>
+                <div class="smart-pag-table-row" style="display: flex; margin: 5px 0">
+                    ${cell}
                 </div>
             `;
             }
@@ -90,10 +102,10 @@ class SmartPag {
     }
 
     addText() {
-            document.querySelectorAll('.table-cell').forEach(e => {
+            document.querySelectorAll('.smart-pag-editable').forEach(e => {
             let me = this;
             e.addEventListener('keyup', () => {
-                this.items[e.dataset.item].this.config[2] = e.innerText;
+                this.items[e.dataset.item][this.config.keys[2]] = e.innerText;
             });
             this.items = me.items;
             // console.log(this.items);

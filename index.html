@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="container">
@@ -13,7 +14,8 @@
     let items = [
         {
             name: "Guga",
-            age: 21
+            age: 21,
+            comment: "ddd"
         },
         {
             name: "Gio",
@@ -37,8 +39,12 @@
         }
     ];
     let config = {
-        headers: ["სახელი", "გვარი"],
-        keys: ["name", "age", "comment"],
+        headers: ["სახელი", "გვარი", "comment"],
+        keys: [
+            {name: "name", edit: false, hide: true},
+            {name: "age", edit: false, hide: false},
+            {name: "comment", edit: true, hide: false}
+        ],
         quantity: 5
     };
     let pagination = new SmartPag(items, config);
