@@ -62,11 +62,23 @@ class SmartPag {
             }
         }
 
+        let header = "";
+
+        this.config.keys.forEach(e =>  {
+            let isHidden = "";
+            if(e.hide) {
+                isHidden = "smart-pag-hide";
+
+            }
+            header += `
+                <h3 style="margin: 5px" class="${isHidden}">${e.header}</h3>
+            `;
+        });
+
         this.container.innerHTML = `
             <div style="">
                 <div style="display: flex">
-                    <h3 style="margin: 5px">${this.config.headers[0]}</h3>
-                    <h3 style="margin: 5px">${this.config.headers[1]}</h3>
+                    ${header}
                 </div>
                 ${newDivs}
             </div>
