@@ -20,10 +20,10 @@ class SmartPag {
         `;
         this.pagingBlock = `
             <div class="smart-pag-pagination-block">
-                <button class="smart-pag-pre smart-pag-button"><</button>
+                <a class="smart-pag-pre smart-pag-button"><</a>
                     <div class="smart-pag-btns" id="smartPagBtns">
                     </div>
-                <button class="smart-pag-next smart-pag-button">></button>
+                <a class="smart-pag-next smart-pag-button">></a>
             </div>
         `;
         this.drawTable(this.items);
@@ -45,23 +45,23 @@ class SmartPag {
             if(this.pagesBtns > 5) {
                 console.log(1);
                 newBtns += `
-                    <button class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</button>
+                    <a class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</a>
                 `;
                 newBtns = this.drawShorterBtns(newBtns);
                 newBtns += `
-                    <button class="smart-pag-paginating-btn  ${this.pagesBtns} smart-pag-button">${this.pagesBtns}</button>
+                    <a class="smart-pag-paginating-btn  ${this.pagesBtns} smart-pag-button">${this.pagesBtns}</a>
                 `;
             } else {
                 console.log(2);
                 for (let i = 1; i <= this.pagesBtns; i++) {
                     newBtns += `
-                        <button class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
+                        <a class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</a>
                     `;
                 }
             }
         } else {
             newBtns += `
-                    <button class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</button>
+                    <a class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</a>
                 `;
         }
 
@@ -103,7 +103,7 @@ class SmartPag {
 
         for (let i = newActivStarter-1; i <= newActivStarter+1; i++) {
             newBtns += `
-                <button class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
+                <a class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</a>
             `;
             newBeforLast=i;
         }
