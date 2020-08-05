@@ -42,10 +42,22 @@ class SmartPag {
             document.getElementById('smartPagBtns').innerHTML = "";
         }
         if(!isEmpty) {
-            for (let i = 1; i <= this.pagesBtns; i++) {
+            if(this.pagesBtns > 5) {
+                console.log(1);
                 newBtns += `
-                    <button class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
+                    <button class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</button>
                 `;
+                newBtns = this.drawShorterBtns(newBtns);
+                newBtns += `
+                    <button class="smart-pag-paginating-btn  ${this.pagesBtns} smart-pag-button">${this.pagesBtns}</button>
+                `;
+            } else {
+                console.log(2);
+                for (let i = 1; i <= this.pagesBtns; i++) {
+                    newBtns += `
+                        <button class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
+                    `;
+                }
             }
         } else {
             newBtns += `
@@ -65,6 +77,44 @@ class SmartPag {
         }
         // this.drawActiveButton();
     
+    }
+
+    drawShorterBtns(newBtns) {
+        let newActivStarter = this.isActiv;
+        let newBeforLast;
+        
+        if(newActivStarter < 3) {
+            while(newActivStarter !== 3) {
+                newActivStarter++;
+            }
+        }
+
+        if(newActivStarter > this.pagesBtns-2) {
+            while(newActivStarter !== this.pagesBtns-2) {
+                newActivStarter--;
+            }
+        }
+
+        if(newActivStarter-1 != 2) {
+            newBtns += `
+                <div class="smart-pag-tree-points">...</div>
+            `;
+        }
+
+        for (let i = newActivStarter-1; i <= newActivStarter+1; i++) {
+            newBtns += `
+                <button class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
+            `;
+            newBeforLast=i;
+        }
+
+        if(newBeforLast != this.pagesBtns-1) {
+            newBtns += `
+                <div class="smart-pag-tree-points">...</div>
+            `;
+        }
+
+        return newBtns;
     }
 
 

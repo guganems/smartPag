@@ -1,7 +1,9 @@
 .smart-pag-active {
     display: block;
 }
-.smart-pag-hide {
+.smart-pag-.smaart-pag-btns-hide {
+    display: none;
+} {
     display: none;
 }
 .smart-pag-table {
@@ -68,4 +70,8 @@
 
 .smart-pag-btns {
     display: flex;
+}
+
+.smaart-pag-btns-hide {
+    display: none;
 }
