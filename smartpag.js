@@ -3,6 +3,7 @@ class SmartPag {
         this.config = config;
         this.items = [...items];
         this.starter = 0;
+        this.isActiv = 1;
         this.searchVal = "";
         this.func = func;
         this.init();
@@ -34,20 +35,42 @@ class SmartPag {
             return el;
         });
     }
-    drawButtons() {
+    drawButtons(isEmpty) {
         let newBtns = ``;
+
         if (document.getElementById('smartPagBtns')) {
             document.getElementById('smartPagBtns').innerHTML = "";
         }
-        for (let i = 1; i <= this.pagesBtns; i++) {
+        if(!isEmpty) {
+            for (let i = 1; i <= this.pagesBtns; i++) {
+                newBtns += `
+                    <button class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
+                `;
+            }
+        } else {
             newBtns += `
-                <button  onclick="act(this)" class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</button>
-            `;
+                    <button class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</button>
+                `;
         }
+
+        
         document.getElementById('smartPagBtns').innerHTML = newBtns;
+        for(let i = 0; i < document.getElementById('smartPagBtns').childElementCount; i++) {
+            if(document.getElementById('smartPagBtns').children[i].classList.contains(`${this.isActiv}`)) {
+                document.getElementById('smartPagBtns').children[i].classList.add('smart-pag-active');
+            }
+            else {
+                document.getElementById('smartPagBtns').children[i].classList.remove('smart-pag-active');
+            }
+        }
+        // this.drawActiveButton();
+    
     }
+
+
     drawTable(items = "") {
         // TODO: draws it
+        let isEmpty = items.length<=0;
         let newDivs = ``;
         for (let i = this.starter; i < this.starter + this.config.pageSize; i++) {
             if (i < items.length) {
@@ -107,7 +130,7 @@ class SmartPag {
             </table>
              ${this.pagingBlock}
         `;
-        this.drawButtons();
+        this.drawButtons(isEmpty);
         this.addText();
         this.chnageItems();
     }
@@ -121,17 +144,20 @@ class SmartPag {
                 if (e.classList.contains('smart-pag-pre')) {
                     if (me.starter > 0) {
                         me.starter -= me.config.pageSize;
+                        me.isActiv = me.isActiv-1;
                         document.getElementById('smartPagSearch').dispatchEvent(event);
                     }
                 }
                 else if (e.classList.contains('smart-pag-next')) {
                     if (me.starter < me.items.length - me.config.pageSize) {
                         me.starter += me.config.pageSize;
+                        me.isActiv = me.isActiv+1;
                         document.getElementById('smartPagSearch').dispatchEvent(event);
                     }
                 }
                 else if (e.parentElement.classList.contains('smart-pag-btns')) {
                     me.starter = Number(e.textContent) * me.config.pageSize - me.config.pageSize;
+                    me.isActiv = Number(e.textContent);
                     document.getElementById('smartPagSearch').dispatchEvent(event);
                 }
             });
@@ -148,29 +174,30 @@ class SmartPag {
                 this.func(data);
             });
             this.items = me.items;
-            // console.log(this.items);
         });
     }
     searchFilter() {
+        let event = new Event('click');
         this.searchBox = document.getElementById("smartPagSearch");
-
-        document.getElementById('smartPagSearch').addEventListener("keyup", ()=> {
+        document.getElementById('smartPagSearch').addEventListener("keyup", (e)=> {
             this.searchVal = this.searchBox.value;
             let tempItems = this.items.filter(el => {
                 for (let prop of this.config.keys) {
                     if (prop.searchable) {
                         let searchable = `${el[prop.name]} `;
                         if (searchable.includes(this.searchVal)) return true;
-                    }
+                   }
                 }
             });
+
+            if(e.keyCode) {
+                this.starter = 0;
+                this.isActiv = 1;
+                this.searchBox.dispatchEvent(event);
+            }
             this.drawTable(tempItems);
         });
-        // document.getElementById('smartPagSearchBtnClear').addEventListener('click', () => {
-        //     this.searchVal = "";
-        //     this.searchBox.value = "";
-        //     this.drawTable(this.items);
-        // });
+
     }
     getData() {
         return this.items;
