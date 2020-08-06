@@ -3,8 +3,6 @@
 }
 .smart-pag-.smaart-pag-btns-hide {
     display: none;
-} {
-    display: none;
 }
 .smart-pag-table {
     border-collapse: collapse;
@@ -72,7 +70,7 @@
     display: flex;
 }
 
-.smaart-pag-btns-hide {
+.smart-pag-btns-hide {
     display: none;
 }
 

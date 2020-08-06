@@ -187,6 +187,14 @@ class SmartPag {
     chnageItems() {
         // TODO: set new items
 
+        if(this.isActiv === 1) {
+           document.getElementsByClassName('smart-pag-pre')[0].style.display = 'none';
+        }
+
+        if(this.isActiv === this.pagesBtns) {
+            document.getElementsByClassName('smart-pag-next')[0].style.display = 'none';
+         }
+
         document.querySelectorAll('.smart-pag-button').forEach(e => {
             let me = this;
             e.addEventListener('click', function () {
