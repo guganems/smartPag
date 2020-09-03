@@ -14,14 +14,14 @@ class SmartPag {
         this.container = document.getElementById(this.config.parentDiv);
         this.container.innerHTML += `
             <div class="smart-pag-search-box-block">
-                <input type="text" name="smartPagSearch" id="smartPagSearch" class="smart-pag-search-box">
+                <input type="text" name="smartPagSearch" id="smartPagSearch${this.config.id}" class="smart-pag-search-box">
              </div>
-            <div id="smartPagTableBlock"></div>            
+            <div id="smartPagTableBlock${this.config.id}"></div>            
         `;
         this.pagingBlock = `
             <div class="smart-pag-pagination-block">
                 <a class="smart-pag-pre smart-pag-button"><</a>
-                    <div class="smart-pag-btns" id="smartPagBtns">
+                    <div class="smart-pag-btns" id="smartPagBtns${this.config.id}">
                     </div>
                 <a class="smart-pag-next smart-pag-button">></a>
             </div>
@@ -38,8 +38,8 @@ class SmartPag {
     drawButtons(isEmpty) {
         let newBtns = ``;
 
-        if (document.getElementById('smartPagBtns')) {
-            document.getElementById('smartPagBtns').innerHTML = "";
+        if (document.getElementById(`smartPagBtns${this.config.id}`)) {
+            document.getElementById(`smartPagBtns${this.config.id}`).innerHTML = "";
         }
         if(!isEmpty) {
             if(this.pagesBtns > 5) {
@@ -66,13 +66,13 @@ class SmartPag {
         }
 
         
-        document.getElementById('smartPagBtns').innerHTML = newBtns;
-        for(let i = 0; i < document.getElementById('smartPagBtns').childElementCount; i++) {
-            if(document.getElementById('smartPagBtns').children[i].classList.contains(`${this.isActiv}`)) {
-                document.getElementById('smartPagBtns').children[i].classList.add('smart-pag-active');
+        document.getElementById(`smartPagBtns${this.config.id}`).innerHTML = newBtns;
+        for(let i = 0; i < document.getElementById(`smartPagBtns${this.config.id}`).childElementCount; i++) {
+            if(document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.contains(`${this.isActiv}`)) {
+                document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.add('smart-pag-active');
             }
             else {
-                document.getElementById('smartPagBtns').children[i].classList.remove('smart-pag-active');
+                document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.remove('smart-pag-active');
             }
         }
         // this.drawActiveButton();
@@ -163,18 +163,20 @@ class SmartPag {
             `;
         });
 
+        
 
-        if (document.getElementById('smartPagTbody')) {
-            document.getElementById('smartPagTbody').innerHTML = "";
+
+        if (document.getElementById(`smartPagTbody${this.config.id}`)) {
+            document.getElementById(`smartPagTbody${this.config.id}`).innerHTML = "";
         }
         document.getElementById('smartPagTableBlock').innerHTML = `
-            <table class="smart-pag-table" id="smartPagTable">
-                <thead class="smar-pag-thead" id="smartPagThead">
+            <table class="smart-pag-table" id="smartPagTable${this.config.id}">
+                <thead class="smar-pag-thead" id="smartPagThead${this.config.id}">
                     <tr class="smart-pag-table-row">
                         ${header}
                     </tr>
                 </thead>
-                <tbody class="smart-pag-tbody" id="smartPagTbody">
+                <tbody class="smart-pag-tbody" id="smartPagTbody${this.config.id}">
                     ${newDivs}
                 </tbody>
             </table>
@@ -203,20 +205,20 @@ class SmartPag {
                     if (me.starter > 0) {
                         me.starter -= me.config.pageSize;
                         me.isActiv = me.isActiv-1;
-                        document.getElementById('smartPagSearch').dispatchEvent(event);
+                        document.getElementById(`smartPagSearch${this.config.id}`).dispatchEvent(event);
                     }
                 }
                 else if (e.classList.contains('smart-pag-next')) {
                     if (me.starter < me.items.length - me.config.pageSize) {
                         me.starter += me.config.pageSize;
                         me.isActiv = me.isActiv+1;
-                        document.getElementById('smartPagSearch').dispatchEvent(event);
+                        document.getElementById(`smartPagSearch${this.config.id}`).dispatchEvent(event);
                     }
                 }
                 else if (e.parentElement.classList.contains('smart-pag-btns')) {
                     me.starter = Number(e.textContent) * me.config.pageSize - me.config.pageSize;
                     me.isActiv = Number(e.textContent);
-                    document.getElementById('smartPagSearch').dispatchEvent(event);
+                    document.getElementById(`smartPagSearch${this.config.id}`).dispatchEvent(event);
                 }
             });
         });
@@ -236,8 +238,8 @@ class SmartPag {
     }
     searchFilter() {
         let event = new Event('click');
-        this.searchBox = document.getElementById("smartPagSearch");
-        document.getElementById('smartPagSearch').addEventListener("keyup", (e)=> {
+        this.searchBox = document.getElementById(`smartPagSearch${this.config.id}`);
+        document.getElementById(`smartPagSearch${this.config.id}`).addEventListener("keyup", (e)=> {
             this.searchVal = this.searchBox.value;
             let tempItems = this.items.filter(el => {
                 for (let prop of this.config.keys) {
