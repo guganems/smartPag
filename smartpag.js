@@ -12,7 +12,7 @@ class SmartPag {
     init() {
         this.smartPagMap();
         this.container = document.getElementById(this.config.parentDiv);
-        this.container.innerHTML = `
+        this.container.innerHTML += `
             <div class="smart-pag-search-box-block">
                 <input type="text" name="smartPagSearch" id="smartPagSearch" class="smart-pag-search-box">
              </div>
@@ -164,12 +164,12 @@ class SmartPag {
         });
 
 
-        if (document.getElementById('smartPagTableBlock')) {
-            document.getElementById('smartPagTableBlock').innerHTML = "";
+        if (document.getElementById('smartPagTbody')) {
+            document.getElementById('smartPagTbody').innerHTML = "";
         }
         document.getElementById('smartPagTableBlock').innerHTML = `
             <table class="smart-pag-table" id="smartPagTable">
-                <thead class="smar-pag-thead">
+                <thead class="smar-pag-thead" id="smartPagThead">
                     <tr class="smart-pag-table-row">
                         ${header}
                     </tr>
