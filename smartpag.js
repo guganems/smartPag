@@ -13,17 +13,17 @@ class SmartPag {
         this.smartPagMap();
         this.container = document.getElementById(this.config.parentDiv);
         this.container.innerHTML += `
-            <div class="smart-pag-search-box-block">
-                <input type="text" name="smartPagSearch" id="smartPagSearch${this.config.id}" class="smart-pag-search-box">
+            <div class="smart-pag-search-box-block${this.config.id} smart-pag__search-block">
+                <input type="text" name="smartPagSearch" id="smartPagSearch${this.config.id}" class="smart-pag-search-box${this.config.id} smart-pag__search-input">
              </div>
-            <div id="smartPagTableBlock${this.config.id}"></div>            
+            <div id="smartPagTableBlock${this.config.id}" class="smart-pag__table-block"></div>            
         `;
         this.pagingBlock = `
-            <div class="smart-pag-pagination-block">
-                <a id="smart-pag-pre${this.config.id}" class="smart-pag-pre smart-pag-button"><</a>
-                    <div class="smart-pag-btns" id="smartPagBtns${this.config.id}">
+            <div class="smart-pag-pagination-block${this.config.id} smart-pag__pagination-block">
+                <a id="smart-pag-pre${this.config.id}" class="smart-pag-pre${this.config.id} smart-pag-button${this.config.id} smart-pag__pre"><</a>
+                    <div class="smart-pag-btns${this.config.id} smart-pag__btn" id="smartPagBtns${this.config.id}">
                     </div>
-                <a  id="smart-pag-next${this.config.id}" class="smart-pag-next smart-pag-button">></a>
+                <a  id="smart-pag-next${this.config.id}" class="smart-pag-next${this.config.id} smart-pag-button${this.config.id} smart-pag__next">></a>
             </div>
         `;
         this.drawTable(this.items);
@@ -45,23 +45,23 @@ class SmartPag {
             if(this.pagesBtns > 5) {
                 console.log(1);
                 newBtns += `
-                    <a class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</a>
+                    <a class="smart-pag-paginating-btn${this.config.id}  ${1} smart-pag-button${this.config.id} smart-pag__button">${1}</a>
                 `;
                 newBtns = this.drawShorterBtns(newBtns);
                 newBtns += `
-                    <a class="smart-pag-paginating-btn  ${this.pagesBtns} smart-pag-button">${this.pagesBtns}</a>
+                    <a class="smart-pag-paginating-btn${this.config.id}  ${this.pagesBtns} smart-pag-button${this.config.id} smart-pag__button">${this.pagesBtns}</a>
                 `;
             } else {
                 console.log(2);
                 for (let i = 1; i <= this.pagesBtns; i++) {
                     newBtns += `
-                        <a class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</a>
+                        <a class="smart-pag-paginating-btn${this.config.id}  ${i} smart-pag-button${this.config.id} smart-pag__button">${i}</a>
                     `;
                 }
             }
         } else {
             newBtns += `
-                    <a class="smart-pag-paginating-btn  ${1} smart-pag-button">${1}</a>
+                    <a class="smart-pag-paginating-btn${this.config.id}  ${1} smart-pag-button${this.config.id} smart-pag__button">${1}</a>
                 `;
         }
 
@@ -69,10 +69,10 @@ class SmartPag {
         document.getElementById(`smartPagBtns${this.config.id}`).innerHTML = newBtns;
         for(let i = 0; i < document.getElementById(`smartPagBtns${this.config.id}`).childElementCount; i++) {
             if(document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.contains(`${this.isActiv}`)) {
-                document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.add('smart-pag-active');
+                document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.add(`smart-pag-active${this.config.id}`);
             }
             else {
-                document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.remove('smart-pag-active');
+                document.getElementById(`smartPagBtns${this.config.id}`).children[i].classList.remove(`smart-pag-active${this.config.id}`);
             }
         }
         // this.drawActiveButton();
@@ -97,20 +97,20 @@ class SmartPag {
 
         if(newActivStarter-1 != 2) {
             newBtns += `
-                <div class="smart-pag-tree-points">...</div>
+                <div class="smart-pag-tree-points${this.config.id} smart-pag__tree-points">...</div>
             `;
         }
 
         for (let i = newActivStarter-1; i <= newActivStarter+1; i++) {
             newBtns += `
-                <a class="smart-pag-paginating-btn  ${i} smart-pag-button">${i}</a>
+                <a class="smart-pag-paginating-btn${this.config.id}  ${i} smart-pag-button${this.config.id} smart-pag__button">${i}</a>
             `;
             newBeforLast=i;
         }
 
         if(newBeforLast != this.pagesBtns-1) {
             newBtns += `
-                <div class="smart-pag-tree-points">...</div>
+                <div class="smart-pag-tree-points${this.config.id} smart-pag__tree-points">...</div>
             `;
         }
 
@@ -131,19 +131,19 @@ class SmartPag {
                     let hide = "";
                     let isEditable = "";
                     if (this.config.keys[key].hide) {
-                        hide = "smart-pag-hide";
+                        hide = `smart-pag-hide${this.config.id}`;
                     }
                     if(this.config.keys[key].edit) {
-                        isEditable = "smart-pag-editable";
+                        isEditable = `smart-pag-editable${this.config.id}`;
                     }
                     let tempId = items[i].smartPagId;
                     // console.log(items);
                     cell += `
-                        <td class="smart-pag-table-cell ${hide} ${isEditable}" data-key="${key}" data-item="${tempId}" contenteditable="${this.config.keys[key].edit}">${items[i][this.config.keys[key].name] ? items[i][this.config.keys[key].name] : ""}</td>
+                        <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell" data-key="${key}" data-item="${tempId}" contenteditable="${this.config.keys[key].edit}">${items[i][this.config.keys[key].name] ? items[i][this.config.keys[key].name] : ""}</td>
                     `;
                 }
                     newDivs += `
-                <tr class="smart-pag-table-row">
+                <tr class="smart-pag-table-row${this.config.id} smart-pag__table-row">
                     ${cell}
                 </tr>
                 `;
@@ -155,11 +155,11 @@ class SmartPag {
         this.config.keys.forEach(e =>  {
             let isHidden = "";
             if(e.hide) {
-                isHidden = "smart-pag-hide";
+                isHidden = `smart-pag-hide${this.config.id}`;
 
             }
             header += `
-                <th class="smart-pag-table-cell ${isHidden}">${e.header}</th>
+                <th class="smart-pag-table-cell${this.config.id} ${isHidden} smart-pag__table-cell">${e.header}</th>
             `;
         });
 
@@ -170,13 +170,13 @@ class SmartPag {
             document.getElementById(`smartPagTbody${this.config.id}`).innerHTML = "";
         }
         document.getElementById(`smartPagTableBlock${this.config.id}`).innerHTML = `
-            <table class="smart-pag-table" id="smartPagTable${this.config.id}">
-                <thead class="smar-pag-thead" id="smartPagThead${this.config.id}">
-                    <tr class="smart-pag-table-row">
+            <table class="smart-pag-table${this.config.id} smart-pag__table" id="smartPagTable${this.config.id}">
+                <thead class="smart-pag-thead${this.config.id} smart-pag__thead" id="smartPagThead${this.config.id}">
+                    <tr class="smart-pag-table-row smart-pag__table-row">
                         ${header}
                     </tr>
                 </thead>
-                <tbody class="smart-pag-tbody" id="smartPagTbody${this.config.id}">
+                <tbody class="smart-pag-tbody${this.config.id} smart-pag__tbody" id="smartPagTbody${this.config.id}">
                     ${newDivs}
                 </tbody>
             </table>
@@ -197,7 +197,7 @@ class SmartPag {
             document.getElementById(`smart-pag-next${this.config.id}`).style.display = 'none';
          }
 
-        document.querySelectorAll('.smart-pag-button').forEach(e => {
+        document.querySelectorAll(`.smart-pag-button${this.config.id}`).forEach(e => {
             let me = this;
             e.addEventListener('click', function () {
                 let event = new Event("keyup");
@@ -215,7 +215,7 @@ class SmartPag {
                         document.getElementById(`smartPagSearch${me.config.id}`).dispatchEvent(event);
                     }
                 }
-                else if (e.parentElement.classList.contains('smart-pag-btns')) {
+                else if (e.parentElement.classList.contains(`smart-pag-btns${me.config.id}`)) {
                     me.starter = Number(e.textContent) * me.config.pageSize - me.config.pageSize;
                     me.isActiv = Number(e.textContent);
                     document.getElementById(`smartPagSearch${me.config.id}`).dispatchEvent(event);
@@ -225,7 +225,7 @@ class SmartPag {
 
     }
     addText() {
-            document.querySelectorAll('.smart-pag-editable').forEach(e => {
+            document.querySelectorAll(`.smart-pag-editable${this.config.id}`).forEach(e => {
             let me = this;
             e.addEventListener('keyup', () => {
                 let key = e.dataset.key;
