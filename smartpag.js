@@ -20,10 +20,10 @@ class SmartPag {
         `;
         this.pagingBlock = `
             <div class="smart-pag-pagination-block">
-                <a class="smart-pag-pre smart-pag-button"><</a>
+                <a id="smart-pag-pre${this.config.id}" class="smart-pag-pre smart-pag-button"><</a>
                     <div class="smart-pag-btns" id="smartPagBtns${this.config.id}">
                     </div>
-                <a class="smart-pag-next smart-pag-button">></a>
+                <a  id="smart-pag-next${this.config.id}" class="smart-pag-next smart-pag-button">></a>
             </div>
         `;
         this.drawTable(this.items);
@@ -169,7 +169,7 @@ class SmartPag {
         if (document.getElementById(`smartPagTbody${this.config.id}`)) {
             document.getElementById(`smartPagTbody${this.config.id}`).innerHTML = "";
         }
-        document.getElementById('smartPagTableBlock').innerHTML = `
+        document.getElementById(`smartPagTableBlock${this.config.id}`).innerHTML = `
             <table class="smart-pag-table" id="smartPagTable${this.config.id}">
                 <thead class="smar-pag-thead" id="smartPagThead${this.config.id}">
                     <tr class="smart-pag-table-row">
@@ -190,35 +190,35 @@ class SmartPag {
         // TODO: set new items
 
         if(this.isActiv === 1) {
-           document.getElementsByClassName('smart-pag-pre')[0].style.display = 'none';
+           document.getElementById(`smart-pag-pre${this.config.id}`).style.display = 'none';
         }
 
         if(this.isActiv === this.pagesBtns) {
-            document.getElementsByClassName('smart-pag-next')[0].style.display = 'none';
+            document.getElementById(`smart-pag-next${this.config.id}`).style.display = 'none';
          }
 
         document.querySelectorAll('.smart-pag-button').forEach(e => {
             let me = this;
             e.addEventListener('click', function () {
                 let event = new Event("keyup");
-                if (e.classList.contains('smart-pag-pre')) {
+                if (e.id === `smart-pag-pre${me.config.id}`) {
                     if (me.starter > 0) {
                         me.starter -= me.config.pageSize;
                         me.isActiv = me.isActiv-1;
-                        document.getElementById(`smartPagSearch${this.config.id}`).dispatchEvent(event);
+                        document.getElementById(`smartPagSearch${me.config.id}`).dispatchEvent(event);
                     }
                 }
-                else if (e.classList.contains('smart-pag-next')) {
+                else if (e.id === `smart-pag-next${me.config.id}`) {
                     if (me.starter < me.items.length - me.config.pageSize) {
                         me.starter += me.config.pageSize;
                         me.isActiv = me.isActiv+1;
-                        document.getElementById(`smartPagSearch${this.config.id}`).dispatchEvent(event);
+                        document.getElementById(`smartPagSearch${me.config.id}`).dispatchEvent(event);
                     }
                 }
                 else if (e.parentElement.classList.contains('smart-pag-btns')) {
                     me.starter = Number(e.textContent) * me.config.pageSize - me.config.pageSize;
                     me.isActiv = Number(e.textContent);
-                    document.getElementById(`smartPagSearch${this.config.id}`).dispatchEvent(event);
+                    document.getElementById(`smartPagSearch${me.config.id}`).dispatchEvent(event);
                 }
             });
         });
