@@ -174,7 +174,7 @@ class SmartPag {
         document.getElementById(`smartPagTableBlock${this.config.id}`).innerHTML = `
             <table class="smart-pag-table${this.config.id} smart-pag__table" id="smartPagTable${this.config.id}">
                 <thead class="smart-pag-thead${this.config.id} smart-pag__thead" id="smartPagThead${this.config.id}">
-                    <tr class="smart-pag-table-row smart-pag__table-row">
+                    <tr id="smart-header-spec${this.config.id}" class="smart-pag-table-row smart-pag__table-row">
                         ${header}
                     </tr>
                 </thead>
