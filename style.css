@@ -1,37 +1,43 @@
-.smart-pag-active {
+.smart-pag__search-block {
+    margin-bottom: 20px;
+}
+
+.smart-pag-active1, .smart-pag-active999  {
     display: block;
 }
-.smart-pag-.smaart-pag-btns-hide {
+.smart-pag-hide {
     display: none;
 }
-.smart-pag-table {
+.smart-pag__table {
     border-collapse: collapse;
     width: 100%;
+    font-size: 15px !important;
 }
-.smart-pag-table-cell {
+.smart-pag__table-cell {
     border: 1px solid #ddd;
     text-align: left;
     padding: 5px;
     max-width: 200px;
 
 }
-.smart-pag-table-row:nth-child(even) {
+.smart-pag__table-row:nth-child(even) {
     background: #dddddd;
 }
-.smart-pag-search-box {
-    width: 20%;
+.smart-pag__search-input {
     border: 1px solid #000;
     border-radius: 6px;
-    padding: 5px;
+    width: 20%;
+    padding: 10px;
 }
-#smartPagTableBlock {
-    padding-top: 25px;
-}
-.smart-pag-pagination-block{
+.smart-pag__pagination-block {
     display: flex;
     padding-top: 20px;
+    align-items: center;
 }
-/* .smart-pag-paginating-btn {
+.smart-pag__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 24px;
     width: 24px;
     background: #fff;
@@ -41,40 +47,51 @@
     cursor: pointer;
     transition: 0.3s;
     margin: 0 5px;
-} */
+}
 
-.smart-pag-paginating-btn:hover {
+.smart-pag__button:hover {
     background: #3498DB;
     color: #fff;
 
 }
-.smart-pag-next, .smart-pag-pre {
-    background: none;
+.smart-pag__next, .smart-pag__pre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 24px;
+    background: #fff;
     color: #3498DB;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
+    transition: 0.2s;
+    margin: 0 5px;
 }
-.smart-pag-next:hover, .smart-pag-pre:hover {
+.smart-pag__next:hover, .smart-pag__pre:hover {
     background: #3498DB;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.smart-pag-active1, .smart-pag-active999 {
+    background-color: #3498DB !important;
+    color: #fff !important;
     color: #fff;
     border-radius: 50%;
     transition: 0.2s;
 }
-.smart-pag-active {
-    background-color: #3498DB !important;
-    color: #fff !important;
-}
 
 
-.smart-pag-btns {
+.smart-pag__btn {
     display: flex;
 }
 
-.smart-pag-btns-hide {
+.smart-pag__btns-hide {
     display: none;
 }
 
-.smart-pag-button {
+.smart-pag__buttons {
     display: flex;
     justify-content: center;
     align-items: center;
