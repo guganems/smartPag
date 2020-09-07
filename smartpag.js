@@ -160,7 +160,7 @@ class SmartPag {
             }
             if(e.header != null) {
                 header += `
-                <th class="smart-pag-table-cell${this.config.id} ${isHidden} smart-pag__table-cell">${e.header}</th>
+                <th class="smart-pag-table-cell${this.config.id} ${isHidden} smart-header-new-class${this.config.id} smart-pag__table-cell">${e.header}</th>
                 `;
             }
         });
