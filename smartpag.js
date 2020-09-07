@@ -158,9 +158,11 @@ class SmartPag {
                 isHidden = `smart-pag-hide${this.config.id}`;
 
             }
-            header += `
+            if(e.header != null) {
+                header += `
                 <th class="smart-pag-table-cell${this.config.id} ${isHidden} smart-pag__table-cell">${e.header}</th>
-            `;
+                `;
+            }
         });
 
         
