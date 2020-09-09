@@ -19,7 +19,7 @@ class SmartPag {
             <div id="smartPagTableBlock${this.config.id}" class="smart-pag__table-block"></div>            
         `;
         this.pagingBlock = `
-            <div class="smart-pag-pagination-block${this.config.id} smart-pag__pagination-block">
+            <div id="smart-pag-pagination-block${this.config.id}" class="smart-pag-pagination-block${this.config.id} smart-pag__pagination-block">
                 <a id="smart-pag-pre${this.config.id}" class="smart-pag-pre${this.config.id} smart-pag-button${this.config.id} smart-pag__pre"><</a>
                     <div class="smart-pag-btns${this.config.id} smart-pag__btn" id="smartPagBtns${this.config.id}">
                     </div>
@@ -43,7 +43,7 @@ class SmartPag {
         }
         if(!isEmpty) {
             if(this.pagesBtns > 5) {
-                console.log(1);
+                // console.log(1);
                 newBtns += `
                     <a class="smart-pag-paginating-btn${this.config.id}  ${1} smart-pag-button${this.config.id} smart-pag__button">${1}</a>
                 `;
@@ -52,7 +52,7 @@ class SmartPag {
                     <a class="smart-pag-paginating-btn${this.config.id}  ${this.pagesBtns} smart-pag-button${this.config.id} smart-pag__button">${this.pagesBtns}</a>
                 `;
             } else {
-                console.log(2);
+                // console.log(2);
                 for (let i = 1; i <= this.pagesBtns; i++) {
                     newBtns += `
                         <a class="smart-pag-paginating-btn${this.config.id}  ${i} smart-pag-button${this.config.id} smart-pag__button">${i}</a>
@@ -182,12 +182,89 @@ class SmartPag {
                     ${newDivs}
                 </tbody>
             </table>
-             ${this.pagingBlock}
+            <div id="smart-pag-btns-container${this.config.id}">
+                ${this.pagingBlock}
+            </div>
         `;
         this.drawButtons(isEmpty);
         this.addText();
         this.chnageItems();
     }
+
+    
+
+    drawTableBody(items = "") {
+        // TODO: draws it
+        let isEmpty = items.length<=0;
+        let newDivs = ``;
+        for (let i = this.starter; i < this.starter + this.config.pageSize; i++) {
+            if (i < items.length) {
+                let count = items.length;
+                this.pagesBtns = Math.ceil(count / this.config.pageSize);
+                let cell = "";
+                for (let key = 0; key < this.config.keys.length; key++) {
+                    let hide = "";
+                    let isEditable = "";
+                    if (this.config.keys[key].hide) {
+                        hide = `smart-pag-hide${this.config.id}`;
+                    }
+                    if(this.config.keys[key].edit) {
+                        isEditable = `smart-pag-editable${this.config.id}`;
+                    }
+                    let tempId = items[i].smartPagId;
+                    // console.log(items);
+                    cell += `
+                        <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell" data-key="${key}" data-item="${tempId}" contenteditable="${this.config.keys[key].edit}">${items[i][this.config.keys[key].name] ? items[i][this.config.keys[key].name] : ""}</td>
+                    `;
+                }
+                    newDivs += `
+                <tr class="smart-pag-table-row${this.config.id} smart-pag__table-row">
+                    ${cell}
+                </tr>
+                `;
+            }
+        }
+
+        // let header = "";
+
+        // this.config.keys.forEach(e =>  {
+        //     let isHidden = "";
+        //     if(e.hide) {
+        //         isHidden = `smart-pag-hide${this.config.id}`;
+
+        //     }
+        //     if(e.header != null) {
+        //         header += `
+        //         <th class="smart-pag-table-cell${this.config.id} ${isHidden} smart-header-new-class${this.config.id} smart-pag__table-cell">${e.header}</th>
+        //         `;
+        //     }
+        // });
+
+        
+
+
+        // if (document.getElementById(`smartPagTbody${this.config.id}`)) {
+        //     document.getElementById(`smartPagTbody${this.config.id}`).innerHTML = "";
+        // }
+        document.getElementById(`smartPagTbody${this.config.id}`).innerHTML = `
+            ${newDivs}
+        `;
+
+        document.getElementById(`smart-pag-btns-container${this.config.id}`).innerHTML = `
+            ${this.pagingBlock}
+        `;
+
+        // console.log(this.container)
+
+        // console.log(this.pagingBlock);
+        
+        this.drawButtons(isEmpty);
+        this.addText();
+        this.chnageItems();
+    }
+
+
+
     chnageItems() {
         // TODO: set new items
 
@@ -257,7 +334,7 @@ class SmartPag {
                 this.isActiv = 1;
                 this.searchBox.dispatchEvent(event);
             }
-            this.drawTable(tempItems);
+            this.drawTableBody(tempItems);
         });
 
     }
