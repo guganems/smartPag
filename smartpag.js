@@ -137,10 +137,25 @@ class SmartPag {
                         isEditable = `smart-pag-editable${this.config.id}`;
                     }
                     let tempId = items[i].smartPagId;
-                    // console.log(items);
-                    cell += `
+                    if(this.config.keys[key].name === 'checkBox' && !items[i][this.config.keys[key].name]) {
+                        // console.log(1)
+                        cell += `
+                        <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" }"><input type="checkbox" name="" value="">
+                        </td>
+                        `;
+                        this.items[i].checkBox = false;
+                    } else if (this.config.keys[key].name === 'checkBox') {
+                        // console.log(2)
+                        cell += `
+                        <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" }"><input type="checkbox" checked="${this.config.keys[key].name}" name="" value="">
+                        </td>
+                        `;
+                    } else {
+                        // console.log(3)
+                        cell += `
                         <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell" data-key="${key}" data-item="${tempId}" contenteditable="${this.config.keys[key].edit}">${items[i][this.config.keys[key].name] ? items[i][this.config.keys[key].name] : ""}</td>
-                    `;
+                        `;
+                    }
                 }
                     newDivs += `
                 <tr class="smart-pag-table-row${this.config.id} smart-pag__table-row">
@@ -189,6 +204,7 @@ class SmartPag {
         this.drawButtons(isEmpty);
         this.addText();
         this.chnageItems();
+        this.changeChecked();
     }
 
     
@@ -213,9 +229,24 @@ class SmartPag {
                     }
                     let tempId = items[i].smartPagId;
                     // console.log(items);
-                    cell += `
+                    if(this.config.keys[key].name === 'checkBox' && !items[i][this.config.keys[key].name]) {;
+                        // console.log(1)
+                        cell += `
+                        <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" "><input type="checkbox" name="" value="">
+                        </td>
+                        `;
+                        this.items[i].checkBox = false;
+                    } else if (this.config.keys[key].name === 'checkBox') {
+                        cell += `
+                        <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" "><input type="checkbox" checked="${this.config.keys[key].name}" name="" value="">
+                        </td>
+                        `;
+                    } else {
+                        // console.log(3)
+                        cell += `
                         <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell" data-key="${key}" data-item="${tempId}" contenteditable="${this.config.keys[key].edit}">${items[i][this.config.keys[key].name] ? items[i][this.config.keys[key].name] : ""}</td>
-                    `;
+                        `;
+                    }
                 }
                     newDivs += `
                 <tr class="smart-pag-table-row${this.config.id} smart-pag__table-row">
@@ -261,6 +292,7 @@ class SmartPag {
         this.drawButtons(isEmpty);
         this.addText();
         this.chnageItems();
+        this.changeChecked();
     }
 
 
@@ -303,13 +335,31 @@ class SmartPag {
         });
 
     }
+
+    changeChecked() {
+        let me = this;
+        document.querySelectorAll(`.smart-pag-check-box${this.config.id}`).forEach(e => {
+            e.addEventListener('change', () => {
+                // console.log(e.children)
+                let key = e.dataset.key;
+                // this.items[e.dataset.item][this.config.keys[key].name] = e.innerText;
+                this.items[e.dataset.item][this.config.keys[key].name] = e.childNodes[0].checked;
+                let data = this.getData();
+                this.func(data);
+            });
+            me.items = this.items;
+        });
+    }
+
     addText() {
             document.querySelectorAll(`.smart-pag-editable${this.config.id}`).forEach(e => {
             let me = this;
             e.addEventListener('keyup', () => {
+                // console.log(e)
                 let key = e.dataset.key;
                 this.items[e.dataset.item][this.config.keys[key].name] = e.innerText;
                 let data = this.getData();
+                // console.log(data);
                 this.func(data);
             });
             this.items = me.items;

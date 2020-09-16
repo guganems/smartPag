@@ -105,3 +105,7 @@
     transition: 0.3s;
     margin: 0 5px;
 }
+
+.smart-pag-check-box {
+    -webkit-user-modify: read-only;
+}
