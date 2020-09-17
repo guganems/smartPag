@@ -143,7 +143,7 @@ class SmartPag {
                         <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" }"><input type="checkbox" name="" value="">
                         </td>
                         `;
-                        this.items[i].checkBox = false;
+                        // this.items[i].checkBox = false;
                     } else if (this.config.keys[key].name === 'checkBox') {
                         // console.log(2)
                         cell += `
@@ -235,7 +235,7 @@ class SmartPag {
                         <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" "><input type="checkbox" name="" value="">
                         </td>
                         `;
-                        this.items[i].checkBox = false;
+                        // this.items[i].checkBox = false;
                     } else if (this.config.keys[key].name === 'checkBox') {
                         cell += `
                         <td class="smart-pag-table-cell${this.config.id} ${hide} ${isEditable} smart-pag__table-cell smart-pag-check-box smart-pag-check-box${this.config.id}" data-key="${key}" data-item="${tempId}" "><input type="checkbox" checked="${this.config.keys[key].name}" name="" value="">
