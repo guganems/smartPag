@@ -53,7 +53,7 @@
     ];
     let config = {
         keys: [
-            {header: "შემოწმება", name: "checkBox", edit: true, hide: false, searchable: true},
+            // {header: "შემოწმება", name: "checkBox", edit: true, hide: false, searchable: true},
             {header: "სახელი" ,name: "name", edit: false, hide: false, searchable: true},
             {header: "ასაკი", name: "age", edit: false, hide: false, searchable: true},
             {header: "კომენტარი", name: "comment", edit: true, hide: false, searchable: true},
@@ -72,14 +72,14 @@
 
     let pagination = new SmartPag(items, config, logThis);
     function logThis (es) {
-        console.log(es);
-        // let items = [...es.slice()];
-        // let newItems = [];
-        // for (let item of items) {
-        //     if (parseInt(item.age) > 21) {
-        //         newItems.push(item);
-        //     }
-        // }
+        // console.log(es);
+        let items = [...es.slice()];
+        let newItems = [];
+        for (let item of items) {
+            if (parseInt(item.age) > 21) {
+                newItems.push(item);
+            }
+        }
         // console.log(newItems);
         // console.log(es);
 
